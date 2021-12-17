@@ -1,0 +1,22 @@
+export function getBuffer() {
+  const data = '{"data":{"user":{"id":1,"name":"Hitman","level":10}}}';
+  return ((input) => {
+    const buffer = new ArrayBuffer(data.length * 2);
+    const bufferView = new Uint16Array(buffer);
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < input.length; i++) {
+      bufferView[i] = input.charCodeAt(i);
+    }
+    return buffer;
+  })(data);
+}
+
+export default class ArrayBufferConverter {
+  static load(buffer) {
+    this.buffer = buffer;
+  }
+
+  static toString() {
+    return [...new Uint16Array(this.buffer)].map((item) => String.fromCharCode(item)).join('');
+  }
+}
